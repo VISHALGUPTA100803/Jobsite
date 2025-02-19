@@ -77,13 +77,14 @@ const App = () => {
   // Edit Job
 
   const updateJob = async (job) => {
-    const res = await fetch(`/api/jobs/${job.id}`, {
+    const res = await fetch(`/api/jobs`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-
-      body: JSON.stringify(job),
+      
+      body: JSON.stringify(newJob),
+      
     });
     return;
   };
@@ -105,7 +106,7 @@ const App = () => {
     ✅ Instead of using useEffect for fetching data, loader does it before the component mounts. */}
         <Route
           path="/jobs/edit/:id"
-          element={<EditJobPage updateJobSubmit={updateJob} />}
+          element={<EditJobPage updateJobSubmit = {updateJob} />}
           loader={jobLoader}
         />
         <Route path="*" element={<NotFoundPage />} />

@@ -27,6 +27,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  HydrateFallback
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MainLayout from "./layouts/MainLayout";
@@ -112,7 +113,10 @@ const App = () => {
       </Route>
     )
   );
-  return <RouterProvider router={router} />;
+  return (
+    <HydrateFallback fallback={<div>Loading...</div>}></HydrateFallback>
+    <RouterProvider router={router} />
+  );
 };
 
 export default App;

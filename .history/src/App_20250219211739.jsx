@@ -34,9 +34,9 @@ import JobsPage from "./pages/JobsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import JobPage, { jobLoader } from "./pages/JobPage";
 import AddJobPage from "./pages/AddJobPage";
-import EditJobPage from "./pages/EditJobPage";
 
 const App = () => {
+
   //Add job
   const addJob = async (newJob) => {
     const res = await fetch("/api/jobs", {
@@ -46,7 +46,7 @@ const App = () => {
       },
       // headers specify that we are sending JSON data in the request body.
       body: JSON.stringify(newJob),
-      // JSON.stringify(newJob) converts the JavaScript object into a JSON string to be sent to the server.
+      // SON.stringify(newJob) converts the JavaScript object into a JSON string to be sent to the server.
     });
     return;
   };
@@ -57,36 +57,22 @@ const App = () => {
       method: "DELETE",
     });
     return;
-  };
+  }
 
   // fetch('/api/jobs/${id}', { ... }) → Makes an HTTP request to delete the job with the given ID.
-  // /api/jobs/${id} → Constructs the API endpoint dynamically using the id parameter. If id = 5, the request goes to /api/jobs/5.
-  // method: "DELETE" → Specifies that this request should use the DELETE HTTP method.
-  // How Does It Actually Delete the Job?
-  // The function is called with a job ID
-  // Example:
-  // deleteJob(5); // Deletes the job with ID 5
-  // It sends a DELETE request to the server
-  // This tells the backend to remove the job from the database.
-  // The backend processes the request
-  // If successful, the server deletes the job.
-  // It might return a success message or a status code (200 OK or 204 No Content).
-  // The job is removed from the database
-  // On the frontend, the job may still appear unless we manually update the UI.
-
-  // Edit Job
-
-  const updateJob = async (job) => {
-    const res = await fetch(`/api/jobs/${job.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(job),
-    });
-    return;
-  };
+// /api/jobs/${id} → Constructs the API endpoint dynamically using the id parameter. If id = 5, the request goes to /api/jobs/5.
+// method: "DELETE" → Specifies that this request should use the DELETE HTTP method.
+// How Does It Actually Delete the Job?
+// The function is called with a job ID
+// Example:
+// deleteJob(5); // Deletes the job with ID 5
+// It sends a DELETE request to the server
+// This tells the backend to remove the job from the database.
+// The backend processes the request
+// If successful, the server deletes the job.
+// It might return a success message or a status code (200 OK or 204 No Content).
+// The job is removed from the database
+// On the frontend, the job may still appear unless we manually update the UI.
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -94,20 +80,12 @@ const App = () => {
         <Route index element={<HomePage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
-        <Route
-          path="/jobs/:id"
-          element={<JobPage deleteJob={deleteJob} />}
-          loader={jobLoader}
-        />
+        <Route path="/jobs/:id" element={<JobPage deleteJob = {deleteJob} />} loader={jobLoader} />
         {/* :id means it will be dynamically loaded : this variable means it will be dynamic*/}
         {/* 1️⃣ What is a loader?
     A loader is a function that fetches data before the component renders. It runs when React Router matches a route.
     ✅ Instead of using useEffect for fetching data, loader does it before the component mounts. */}
-        <Route
-          path="/jobs/edit/:id"
-          element={<EditJobPage updateJobSubmit={updateJob} />}
-          loader={jobLoader}
-        />
+    <Route path="/jobs/:id" element={<JobPage deleteJob = {deleteJob} />} loader={jobLoader} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     )

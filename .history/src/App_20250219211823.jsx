@@ -34,7 +34,6 @@ import JobsPage from "./pages/JobsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import JobPage, { jobLoader } from "./pages/JobPage";
 import AddJobPage from "./pages/AddJobPage";
-import EditJobPage from "./pages/EditJobPage";
 
 const App = () => {
   //Add job
@@ -46,7 +45,7 @@ const App = () => {
       },
       // headers specify that we are sending JSON data in the request body.
       body: JSON.stringify(newJob),
-      // JSON.stringify(newJob) converts the JavaScript object into a JSON string to be sent to the server.
+      // SON.stringify(newJob) converts the JavaScript object into a JSON string to be sent to the server.
     });
     return;
   };
@@ -74,20 +73,6 @@ const App = () => {
   // The job is removed from the database
   // On the frontend, the job may still appear unless we manually update the UI.
 
-  // Edit Job
-
-  const updateJob = async (job) => {
-    const res = await fetch(`/api/jobs/${job.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(job),
-    });
-    return;
-  };
-
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
@@ -104,8 +89,8 @@ const App = () => {
     A loader is a function that fetches data before the component renders. It runs when React Router matches a route.
     ✅ Instead of using useEffect for fetching data, loader does it before the component mounts. */}
         <Route
-          path="/jobs/edit/:id"
-          element={<EditJobPage updateJobSubmit={updateJob} />}
+          path="/jobs/:id"
+          element={<EJobPage />}
           loader={jobLoader}
         />
         <Route path="*" element={<NotFoundPage />} />

@@ -27,6 +27,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  HydrateFallback
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MainLayout from "./layouts/MainLayout";
