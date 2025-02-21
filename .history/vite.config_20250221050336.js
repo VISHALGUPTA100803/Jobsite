@@ -8,7 +8,7 @@ export default defineConfig({
     port: 5000,
     proxy: {
       "/api": {
-        target: "https://jobs-api-2xmn.onrender.com",
+        target: "http://localhost:3000",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
