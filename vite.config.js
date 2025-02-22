@@ -6,13 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5000,
-    proxy: {
-      "/api": {
-        target: "https://jobs-api-2xmn.onrender.com",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
   },
 });
 // Redirects API requests from /api to http://localhost:8000.

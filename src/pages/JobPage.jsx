@@ -1,10 +1,11 @@
 //import { useState, useEffect } from "react";
 //import LoadingSpinner from "../components/LoadingSpinner";
-import { useParams, useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "../config";
 
 const JobPage = ({deleteJob}) => {
   //const { id } = useParams();
@@ -124,7 +125,7 @@ const JobPage = ({deleteJob}) => {
 };
 
 const jobLoader = async ({ params }) => {
-  const res = await fetch(`/api/jobs/${params.id}`);
+  const res = await fetch(`${API_BASE_URL}/jobs/${params.id}`);
   const data = await res.json();
   return data;
 };

@@ -35,11 +35,12 @@ import NotFoundPage from "./pages/NotFoundPage";
 import JobPage, { jobLoader } from "./pages/JobPage";
 import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
+import { API_BASE_URL } from "./config";
 
 const App = () => {
   //Add job
   const addJob = async (newJob) => {
-    const res = await fetch("/api/jobs", {
+    const res = await fetch(`${API_BASE_URL}/jobs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const App = () => {
 
   //Delete job
   const deleteJob = async (id) => {
-    const res = await fetch(`/api/jobs/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/jobs/${id}`, {
       method: "DELETE",
     });
     return;
@@ -77,7 +78,7 @@ const App = () => {
   // Edit Job
 
   const updateJob = async (job) => {
-    const res = await fetch(`/api/jobs/${job.id}`, {
+    const res = await fetch(`${API_BASE_URL}/jobs/${job.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
