@@ -1,9 +1,10 @@
 {
-    "rewrites": [
-      {
-        "source": "/jobs/:id",
-        "destination": "/index.html"
-      }
-    ]
-  }
-  
+  "rewrites": [
+    { "source": "/jobs", "destination": "/index.html" },
+    { "source": "/add-job", "destination": "/index.html" },
+    { "source": "/jobs/:id", "destination": "/index.html" },
+    { "source": "/jobs/edit/:id", "destination": "/index.html" },
+    { "source": "/404", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
