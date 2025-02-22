@@ -51,6 +51,7 @@ const App = () => {
     });
     return;
   };
+  
 
   //Delete job
   const deleteJob = async (id) => {
@@ -59,6 +60,8 @@ const App = () => {
     });
     return;
   };
+  
+  
 
   // fetch('/api/jobs/${id}', { ... }) → Makes an HTTP request to delete the job with the given ID.
   // /api/jobs/${id} → Constructs the API endpoint dynamically using the id parameter. If id = 5, the request goes to /api/jobs/5.
@@ -88,6 +91,8 @@ const App = () => {
     });
     return;
   };
+  
+  
 
   const router = createBrowserRouter(
     createRoutesFromElements(

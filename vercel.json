@@ -1,0 +1,9 @@
+{
+    "rewrites": [
+      {
+        "source": "/jobs/:id",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  

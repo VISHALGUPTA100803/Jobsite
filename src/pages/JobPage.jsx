@@ -130,6 +130,8 @@ const jobLoader = async ({ params }) => {
   return data;
 };
 
+
+
 // The loader function fetches data and return data sends it to React Router.
 //React Router stores this data and makes it available via useLoaderData() inside the component.
 

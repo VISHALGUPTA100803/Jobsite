@@ -25,6 +25,9 @@ const JobListings = ({ isHome = false }) => {
     };
     fetchJobs();
   }, []);
+  
+  
+  
 
   return (
     <section className="bg-blue-50 px-4 py-10">
