@@ -22,6 +22,7 @@
 // };
 
 // export default App;
+import { useState } from "react";
 import {
   Route,
   createBrowserRouter,
@@ -37,78 +38,132 @@ import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
 import { API_BASE_URL } from "./config";
 
+
 const App = () => {
+  const [updateTrigger, setUpdateTrigger] = useState(0);
   //Add job
+  // const addJob = async (newJob) => {
+  //   const res = await fetch(`${API_BASE_URL}/jobs`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     // headers specify that we are sending JSON data in the request body.
+  //     body: JSON.stringify(newJob),
+  //     // JSON.stringify(newJob) converts the JavaScript object into a JSON string to be sent to the server.
+  //   });
+  //   setUpdateTrigger(prev => prev + 1);
+  //   return;
+  // };
+
+  // //Delete job
+  // const deleteJob = async (id) => {
+  //   const res = await fetch(`${API_BASE_URL}/jobs/${id}`, {
+  //     method: "DELETE",
+  //   });
+  //   setUpdateTrigger((prev) => prev + 1);
+
+  //   return;
+  // };
+
+  // // fetch('/api/jobs/${id}', { ... }) → Makes an HTTP request to delete the job with the given ID.
+  // // /api/jobs/${id} → Constructs the API endpoint dynamically using the id parameter. If id = 5, the request goes to /api/jobs/5.
+  // // method: "DELETE" → Specifies that this request should use the DELETE HTTP method.
+  // // How Does It Actually Delete the Job?
+  // // The function is called with a job ID
+  // // Example:
+  // // deleteJob(5); // Deletes the job with ID 5
+  // // It sends a DELETE request to the server
+  // // This tells the backend to remove the job from the database.
+  // // The backend processes the request
+  // // If successful, the server deletes the job.
+  // // It might return a success message or a status code (200 OK or 204 No Content).
+  // // The job is removed from the database
+  // // On the frontend, the job may still appear unless we manually update the UI.
+
+  // // Edit Job
+
+  // const updateJob = async (job) => {
+  //   const res = await fetch(`${API_BASE_URL}/jobs/${job.id}`, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+
+  //     body: JSON.stringify(job),
+  //   });
+  //   setUpdateTrigger((prev) => prev + 1);
+  //   return;
+  // };
   const addJob = async (newJob) => {
-    const res = await fetch(`${API_BASE_URL}/jobs`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      // headers specify that we are sending JSON data in the request body.
-      body: JSON.stringify(newJob),
-      // JSON.stringify(newJob) converts the JavaScript object into a JSON string to be sent to the server.
-    });
-    return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/jobs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newJob),
+      });
+      if (!res.ok) throw new Error('Failed to add job');
+      const data = await res.json(); // Get the newly created job data
+      setUpdateTrigger(prev => prev + 1);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Error adding job:', error);
+      return { success: false, error: error.message };
+    }
   };
-  
 
-  //Delete job
   const deleteJob = async (id) => {
-    const res = await fetch(`${API_BASE_URL}/jobs/${id}`, {
-      method: "DELETE",
-    });
-    return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/jobs/${id}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error('Failed to delete job');
+      setUpdateTrigger(prev => prev + 1);
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting job:', error);
+      return { success: false, error: error.message };
+    }
   };
-  
-  
-
-  // fetch('/api/jobs/${id}', { ... }) → Makes an HTTP request to delete the job with the given ID.
-  // /api/jobs/${id} → Constructs the API endpoint dynamically using the id parameter. If id = 5, the request goes to /api/jobs/5.
-  // method: "DELETE" → Specifies that this request should use the DELETE HTTP method.
-  // How Does It Actually Delete the Job?
-  // The function is called with a job ID
-  // Example:
-  // deleteJob(5); // Deletes the job with ID 5
-  // It sends a DELETE request to the server
-  // This tells the backend to remove the job from the database.
-  // The backend processes the request
-  // If successful, the server deletes the job.
-  // It might return a success message or a status code (200 OK or 204 No Content).
-  // The job is removed from the database
-  // On the frontend, the job may still appear unless we manually update the UI.
-
-  // Edit Job
 
   const updateJob = async (job) => {
-    const res = await fetch(`${API_BASE_URL}/jobs/${job.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(job),
-    });
-    return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/jobs/${job.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(job),
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to update job');
+      }
+      
+      const data = await res.json();
+      setUpdateTrigger(prev => prev + 1);
+      return { success: true, data };
+    } catch (error) {
+      console.error('Error updating job:', error);
+      return { success: false, error: error.message };
+    }
   };
-  
   
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<HomePage />} />
-        <Route path="/jobs" element={<JobsPage />} />
+        <Route index element={<HomePage updateTrigger={updateTrigger} />} />
+        <Route path="/jobs" element={<JobsPage trigger={updateTrigger} />} />
         <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
         <Route
           path="/jobs/:id"
           element={<JobPage deleteJob={deleteJob} />}
           loader={jobLoader}
         />
-        {/* :id means it will be dynamically loaded : this variable means it will be dynamic*/}
-        {/* 1️⃣ What is a loader?
-    A loader is a function that fetches data before the component renders. It runs when React Router matches a route.
-    ✅ Instead of using useEffect for fetching data, loader does it before the component mounts. */}
         <Route
           path="/jobs/edit/:id"
           element={<EditJobPage updateJobSubmit={updateJob} />}
@@ -118,6 +173,7 @@ const App = () => {
       </Route>
     )
   );
+
   return <RouterProvider router={router} />;
 };
 

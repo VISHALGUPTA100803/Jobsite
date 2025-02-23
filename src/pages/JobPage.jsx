@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { API_BASE_URL } from "../config";
+import { useState } from "react";
 
 const JobPage = ({deleteJob}) => {
   //const { id } = useParams();
@@ -14,13 +15,36 @@ const JobPage = ({deleteJob}) => {
   // 3️⃣ What is useLoaderData()?
   //Once the loader fetches data, useLoaderData() retrieves the preloaded data inside the component.
   const navigate = useNavigate();
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const onDeleteClick = (jobId) => {
+  // const onDeleteClick = (jobId) => {
+  //   const confirm = window.confirm('Are you sure you want to delete this listing?');
+  //   if(!confirm) return;
+  //   deleteJob(jobId);
+  //   toast.success('Job deleted successfully !');
+  //   return navigate('/jobs');
+  // };
+  const onDeleteClick = async (jobId) => {
+    if (isDeleting) return;
+
     const confirm = window.confirm('Are you sure you want to delete this listing?');
-    if(!confirm) return;
-    deleteJob(jobId);
-    toast.success('Job deleted successfully !');
-    return navigate('/jobs');
+    if (!confirm) return;
+
+    try {
+      setIsDeleting(true);
+      const result = await deleteJob(jobId);
+      
+      if (result.success) {
+        toast.success('Job deleted successfully!');
+        navigate('/jobs');
+      } else {
+        toast.error(result.error || 'Failed to delete job');
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -124,10 +148,38 @@ const JobPage = ({deleteJob}) => {
   );
 };
 
+// const jobLoader = async ({ params }) => {
+//   // Create URL object from the base URL
+//   const url = new URL(`${API_BASE_URL}/jobs/${params.id}`);
+  
+//   // Add timestamp to prevent caching
+//   url.searchParams.append('_t', Date.now());
+  
+//   // You can also add other query parameters if needed
+//   // url.searchParams.append('someOtherParam', 'value');
+  
+//   // Convert URL object back to string for fetch
+//   const res = await fetch(url.toString());
+//   const data = await res.json();
+//   return data;
+// };
 const jobLoader = async ({ params }) => {
-  const res = await fetch(`${API_BASE_URL}/jobs/${params.id}`);
-  const data = await res.json();
-  return data;
+  try {
+    const res = await fetch(`${API_BASE_URL}/jobs/${params.id}`, {
+      // Add cache control headers
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    });
+    
+    if (!res.ok) throw new Error('Failed to load job');
+    
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    throw new Error('Failed to load job details');
+  }
 };
 
 

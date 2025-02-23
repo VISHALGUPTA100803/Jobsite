@@ -4,28 +4,59 @@ import JobListing from "./JobListing";
 import LoadingSpinner from "./LoadingSpinner";
 import { API_BASE_URL } from "../config";
 
-const JobListings = ({ isHome = false }) => {
+const JobListings = ({ isHome = false,trigger =0 }) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // useEffect(() => {
+  //   const fetchJobs = async () => {
+  //     const apiUrl = isHome ? `${API_BASE_URL}/jobs?_limit=3` : `${API_BASE_URL}/jobs`;
+  //     try {
+  //       const res = await fetch(apiUrl);
+
+  //       const data = await res.json();
+
+  //       setJobs(data);
+  //     } catch (e) {
+  //       console.log("Error fetching data", e);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchJobs();
+  // }, [isHome, trigger]);
   useEffect(() => {
     const fetchJobs = async () => {
-      const apiUrl = isHome ? `${API_BASE_URL}/jobs?_limit=3` : `${API_BASE_URL}/jobs`;
       try {
-        const res = await fetch(apiUrl);
-
+        setLoading(true);
+        setError(null);
+        const baseUrl = isHome ? `${API_BASE_URL}/jobs?_limit=3` : `${API_BASE_URL}/jobs`;
+        const url = new URL(baseUrl);
+        // Add cache-busting parameter
+        url.searchParams.append('_t', Date.now());
+        
+        const res = await fetch(url.toString());
+        if (!res.ok) throw new Error('Failed to fetch jobs');
+        
         const data = await res.json();
-
         setJobs(data);
       } catch (e) {
-        console.log("Error fetching data", e);
+        console.error("Error fetching jobs:", e);
+        setError(e.message);
       } finally {
         setLoading(false);
       }
     };
+
     fetchJobs();
-  }, []);
-  
+  }, [isHome, trigger]);
+
+  if (error) {
+    return <div className="text-red-500 text-center py-4">Error loading jobs: {error}</div>;
+  }
+
+
   
   
 

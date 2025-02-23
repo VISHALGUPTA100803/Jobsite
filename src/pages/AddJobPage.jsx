@@ -15,24 +15,41 @@ const AddJobPage = ({addJobSubmit}) => {
 
   const navigate = useNavigate();
 
-  const submitForm = (e) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const submitForm = async (e) => {
     e.preventDefault();
-    const newJob = {
-      title,
-      type,
-      description,
-      location,
-      salary,
-      company: {
-        name: companyName,
-        description: companyDescription,
-        contactEmail,
-        contactPhone,
-      },
-    };
-    addJobSubmit(newJob);
-    toast.success("Job added successfully!");
-    return navigate('/jobs');
+    if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
+      const newJob = {
+        title,
+        type,
+        description,
+        location,
+        salary,
+        company: {
+          name: companyName,
+          description: companyDescription,
+          contactEmail,
+          contactPhone,
+        },
+      };
+      const result = await addJobSubmit(newJob);
+      if (result.success) {
+        toast.success('Job added successfully!');
+        navigate('/jobs');
+      } else {
+        toast.error(result.error || 'Failed to add job');
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+    
+    
   };
   return (
     <section className="bg-indigo-50">

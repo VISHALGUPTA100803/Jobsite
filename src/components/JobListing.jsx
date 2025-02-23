@@ -4,6 +4,8 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const JobListing = ({ job }) => {
+ 
+
   const [showFullDescription, setShowFullDescription] = useState(false);
   let description = job.description;
   if (!showFullDescription) {

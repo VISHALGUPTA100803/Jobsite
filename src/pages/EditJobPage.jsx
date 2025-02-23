@@ -15,9 +15,14 @@ const EditJobPage = ({updateJobSubmit}) => {
   
     const navigate = useNavigate();
     const {id} = useParams();
+    const [isSubmitting, setIsSubmitting] = useState(false);
   
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
       e.preventDefault();
+      if (isSubmitting) return;
+
+    try {
+      setIsSubmitting(true);
       const updateJob = {
         id,
         title,
@@ -32,9 +37,24 @@ const EditJobPage = ({updateJobSubmit}) => {
           contactPhone,
         },
       };
-      updateJobSubmit(updateJob);
-      toast.success("Job Updated successfully!");
-      return navigate(`/jobs/${id}`);
+      const result = await updateJobSubmit(updateJob);
+      if (result.success) {
+        toast.success('Job updated successfully!');
+      // Wait for a brief moment to ensure state updates are processed
+      await new Promise(resolve => setTimeout(resolve, 500));
+      navigate(`/jobs/${id}`);
+     
+      
+      } else {
+        toast.error(result.error || 'Failed to update job');
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
+      
+      
     };
   return (
     <section className="bg-indigo-50">

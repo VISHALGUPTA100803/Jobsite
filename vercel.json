@@ -1,10 +1,13 @@
 {
-  "rewrites": [
-    { "source": "/jobs", "destination": "/index.html" },
-    { "source": "/add-job", "destination": "/index.html" },
-    { "source": "/jobs/:id", "destination": "/index.html" },
-    { "source": "/jobs/edit/:id", "destination": "/index.html" },
-    { "source": "/404", "destination": "/index.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "routes": [
+    { "src": "/jobs", "dest": "/index.html" },
+    { "src": "/add-job", "dest": "/index.html" },
+    { "src": "/jobs/edit/[^/]+", "dest": "/index.html" },
+    { "src": "/jobs/[^/]+", "dest": "/index.html" },
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "/index.html"
+    }
   ]
 }
