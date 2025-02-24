@@ -38,16 +38,17 @@ Check out the live demo of the application:
 ## ⚙️ Installation
 To run this project locally, follow these steps:
 
-1️⃣ **Clone the repository**:
+### 1️⃣ **Clone the repository**:
    ```bash
    git clone https://github.com/VISHALGUPTA100803/Jobsite.git
    cd Jobsite
-
-2️⃣ **Install dependencies**:
+```
+### 2️⃣ **Install dependencies**:
    ```bash
    npm install
-
-3️⃣ **Start the development server**:
+```
+###3️⃣ **Start the development server**:
     ```bash
     npm run dev
+    ```
 
