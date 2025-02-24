@@ -34,9 +34,12 @@ Check out the live demo of the application:
 - **Deployment**: Vercel  
 
 ---
+## 🌐 API Link
+🔗 **[Jobs API](https://jobs-api-2xmn.onrender.com/jobs)**
 
 ## ⚙️ Installation
 To run this project locally, follow these steps:
+---
 
 ### 1️⃣ **Clone the repository**:
    ```bash
