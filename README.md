@@ -36,6 +36,20 @@ Check out the live demo of the application:
 ---
 ## 🌐 API Link
 🔗 **[Jobs API](https://jobs-api-2xmn.onrender.com/jobs)**
+---
+
+
+## 📸 Screenshots
+
+![Screenshot (565)](https://github.com/user-attachments/assets/f2cc0818-fa3d-49ca-ab30-d9cdfdf1fa43)
+
+![Screenshot (566)](https://github.com/user-attachments/assets/bf8b3f16-730c-4827-aa43-64ee4a1697c2)
+
+![Screenshot (567)](https://github.com/user-attachments/assets/d8ab7870-39f7-42cc-a402-75172e62cbab)
+
+![Screenshot (568)](https://github.com/user-attachments/assets/1d5797cf-fb70-4152-9d91-4aa8e18f3098)
+
+---
 
 ## ⚙️ Installation
 To run this project locally, follow these steps:
