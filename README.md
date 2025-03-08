@@ -44,7 +44,6 @@ To run this project locally, follow these steps:
 ### 1️⃣ **Clone the repository**:
    ```bash
    git clone https://github.com/VISHALGUPTA100803/Jobsite.git
-   cd Jobsite
 ```
 ### 2️⃣ **Install dependencies**:
    ```bash
